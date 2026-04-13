@@ -15,57 +15,8 @@ x-common-keys: &common-keys
       - 1.0.0.1
     networks:
       - arr_plex
-      - traefik
-
-x-traefik-labels: &traefik-labels
-    traefik.enable: "true"
-    traefik.http.routers.traefik.entryPoints: websecure
-    traefik.http.routers.traefik.tls: "true"
-    traefik.http.routers.traefik.tls.certresolver: letsencrypt
 
 services:
-###############################################
-# TRAEFIK - Reverse Proxy
-###############################################
-
-  traefik:
-    container_name: traefik
-    profiles: ["infra"]
-    image: traefik:v3.2
-    restart: unless-stopped
-    command:
-      - --api.dashboard=true
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
-      - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
-      - --entrypoints.web.http.redirections.entrypoint.to=websecure
-      - --entrypoints.web.http.redirections.entrypoint.scheme=https
-      - --certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL}
-      - --certificatesresolvers.letsencrypt.acme.storage=/acme.json
-      - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - /docker/appdata/traefik:/acme
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - traefik
-    healthcheck:
-      test: ["CMD", "traefik", "healthcheck", "--ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    labels:
-      traefik.enable: "true"
-      traefik.http.routers.traefik.rule: Host(`traefik.${DOMAIN}`)
-      traefik.http.routers.traefik.entryPoints: websecure
-      traefik.http.routers.traefik.tls: "true"
-      traefik.http.routers.traefik.tls.certresolver: letsencrypt
-      traefik.http.routers.traefik.service: api@internal
-      traefik.http.services.traefik.loadbalancer.server.port: 8080
-
 ###############################################
 # RADARR - Movies
 ###############################################
@@ -75,7 +26,7 @@ services:
     container_name: radarr
     image: ghcr.io/hotio/radarr:release-5.21.1
     ports:
-      - 127.0.0.1:${RADARR_PORT:-7878}:7878
+      - ${RADARR_PORT:-7878}:7878
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /docker/appdata/radarr:/config
@@ -86,13 +37,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
-    labels:
-      traefik.enable: "true"
-      traefik.http.routers.radarr.rule: Host(`radarr.${DOMAIN}`)
-      traefik.http.routers.radarr.entryPoints: websecure
-      traefik.http.routers.radarr.tls: "true"
-      traefik.http.routers.radarr.tls.certresolver: letsencrypt
-      traefik.http.services.radarr.loadbalancer.server.port: 7878
 
 ###############################################
 # SONARR - TV Shows
@@ -104,7 +48,7 @@ services:
     container_name: sonarr
     image: ghcr.io/hotio/sonarr:release-4.0.14
     ports:
-      - 127.0.0.1:${SONARR_PORT:-8989}:8989
+      - ${SONARR_PORT:-8989}:8989
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /docker/appdata/sonarr:/config
@@ -115,13 +59,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
-    labels:
-      traefik.enable: "true"
-      traefik.http.routers.sonarr.rule: Host(`sonarr.${DOMAIN}`)
-      traefik.http.routers.sonarr.entryPoints: websecure
-      traefik.http.routers.sonarr.tls: "true"
-      traefik.http.routers.sonarr.tls.certresolver: letsencrypt
-      traefik.http.services.sonarr.loadbalancer.server.port: 8989
 
 ###############################################
 # LIDARR - Music
@@ -133,7 +70,7 @@ services:
     container_name: lidarr
     image: ghcr.io/hotio/lidarr:release-2.9.6
     ports:
-      - 127.0.0.1:${LIDARR_PORT:-8686}:8686
+      - ${LIDARR_PORT:-8686}:8686
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /docker/appdata/lidarr:/config
@@ -144,13 +81,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
-    labels:
-      traefik.enable: "true"
-      traefik.http.routers.lidarr.rule: Host(`lidarr.${DOMAIN}`)
-      traefik.http.routers.lidarr.entryPoints: websecure
-      traefik.http.routers.lidarr.tls: "true"
-      traefik.http.routers.lidarr.tls.certresolver: letsencrypt
-      traefik.http.services.lidarr.loadbalancer.server.port: 8686
 
 ###############################################
 # BAZARR - Subtitles
@@ -162,7 +92,7 @@ services:
     container_name: bazarr
     image: ghcr.io/hotio/bazarr:release-1.5.1
     ports:
-      - 127.0.0.1:${BAZARR_PORT:-6767}:6767
+      - ${BAZARR_PORT:-6767}:6767
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /docker/appdata/bazarr:/config
@@ -173,13 +103,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
-    labels:
-      traefik.enable: "true"
-      traefik.http.routers.bazarr.rule: Host(`bazarr.${DOMAIN}`)
-      traefik.http.routers.bazarr.entryPoints: websecure
-      traefik.http.routers.bazarr.tls: "true"
-      traefik.http.routers.bazarr.tls.certresolver: letsencrypt
-      traefik.http.services.bazarr.loadbalancer.server.port: 6767
 
 ###############################################
 # PROWLARR - Indexer Manager
@@ -191,7 +114,7 @@ services:
     container_name: prowlarr
     image: ghcr.io/hotio/prowlarr:release-1.32.2
     ports:
-      - 127.0.0.1:${PROWLARR_PORT:-9696}:9696
+      - ${PROWLARR_PORT:-9696}:9696
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /docker/appdata/prowlarr:/config
@@ -201,13 +124,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
-    labels:
-      traefik.enable: "true"
-      traefik.http.routers.prowlarr.rule: Host(`prowlarr.${DOMAIN}`)
-      traefik.http.routers.prowlarr.entryPoints: websecure
-      traefik.http.routers.prowlarr.tls: "true"
-      traefik.http.routers.prowlarr.tls.certresolver: letsencrypt
-      traefik.http.services.prowlarr.loadbalancer.server.port: 9696
 
 ###############################################
 # QBITTORRENT - Downloader
@@ -219,7 +135,7 @@ services:
     container_name: qbittorrent
     image: ghcr.io/hotio/qbittorrent:release-5.0.4
     ports:
-      - 127.0.0.1:${QBITTORRENT_WEBUI_PORT:-8080}:8080
+      - ${QBITTORRENT_WEBUI_PORT:-8080}:8080
       - ${QBITTORRENT_TORRENT_PORT:-6881}:6881
       - ${QBITTORRENT_TORRENT_PORT:-6881}:6881/udp
     environment:
@@ -238,13 +154,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
-    labels:
-      traefik.enable: "true"
-      traefik.http.routers.qbittorrent.rule: Host(`qbittorrent.${DOMAIN}`)
-      traefik.http.routers.qbittorrent.entryPoints: websecure
-      traefik.http.routers.qbittorrent.tls: "true"
-      traefik.http.routers.qbittorrent.tls.certresolver: letsencrypt
-      traefik.http.services.qbittorrent.loadbalancer.server.port: 8080
 
 ###################################
 # FLARESOLVERR - Cloudflare Bypass
@@ -256,7 +165,7 @@ services:
     container_name: flaresolverr
     image: ghcr.io/flaresolverr/flaresolverr:v3.3.21
     ports:
-      - 127.0.0.1:${FLARESOLVERR_PORT:-8191}:8191
+      - ${FLARESOLVERR_PORT:-8191}:8191
     environment:
       PUID: ${PUID:-1000}
       PGID: ${PGID:-1000}
@@ -268,8 +177,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
-    labels:
-      traefik.enable: "false"
 
 ###############################################
 # SEERR - Request Manager
@@ -281,11 +188,13 @@ services:
     image: ghcr.io/seerr-team/seerr:v3.0.0
     init: true
     restart: unless-stopped
+    logging:
+      driver: json-file
     environment:
       TZ: ${TZ:-Europe/Paris}
       LOG_LEVEL: info
     ports:
-      - 127.0.0.1:${SEERR_PORT:-5055}:5055
+      - ${SEERR_PORT:-5055}:5055
     volumes:
       - /docker/appdata/seerr:/app/config
     dns:
@@ -293,20 +202,12 @@ services:
       - 1.0.0.1
     networks:
       - arr_plex
-      - traefik
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/settings/public || exit 1"]
       interval: 15s
       timeout: 3s
       retries: 3
       start_period: 20s
-    labels:
-      traefik.enable: "true"
-      traefik.http.routers.seerr.rule: Host(`seerr.${DOMAIN}`)
-      traefik.http.routers.seerr.entryPoints: websecure
-      traefik.http.routers.seerr.tls: "true"
-      traefik.http.routers.seerr.tls.certresolver: letsencrypt
-      traefik.http.services.seerr.loadbalancer.server.port: 5055
 
 ###############################################
 # JELLYFIN - Media Server
@@ -322,20 +223,13 @@ services:
       - /docker/appdata/jellyfin:/config
       - /data/media:/data/media:ro
     ports:
-      - 127.0.0.1:${JELLYFIN_PORT:-8096}:8096
+      - ${JELLYFIN_PORT:-8096}:8096
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8096/health"]
       interval: 60s
       timeout: 10s
       retries: 3
       start_period: 60s
-    labels:
-      traefik.enable: "true"
-      traefik.http.routers.jellyfin.rule: Host(`jellyfin.${DOMAIN}`)
-      traefik.http.routers.jellyfin.entryPoints: websecure
-      traefik.http.routers.jellyfin.tls: "true"
-      traefik.http.routers.jellyfin.tls.certresolver: letsencrypt
-      traefik.http.services.jellyfin.loadbalancer.server.port: 8096
 
 ###############################################
 # WATCHTOWER - Auto Updater
@@ -352,8 +246,6 @@ services:
       WATCHTOWER_CLEANUP: "true"
       WATCHTOWER_SCHEDULE: "0 0 4 * * *"
       WATCHTOWER_NOTIFICATIONS: ""
-    networks:
-      - traefik
 
 ###############################################
 # ARR Stack Dedicated Network
@@ -362,8 +254,6 @@ services:
 networks:
   arr_plex:
     name: arr_plex
-  traefik:
-    name: traefik
 
 ###############################################
 ###############################################

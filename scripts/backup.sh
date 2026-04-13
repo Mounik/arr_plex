@@ -19,7 +19,6 @@ SERVICES=(
     qbittorrent
     seerr
     jellyfin
-    traefik
 )
 
 for service in "${SERVICES[@]}"; do

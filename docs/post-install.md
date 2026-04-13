@@ -30,7 +30,7 @@ Suivez les instructions dans le README pour vérifier que les hardlinks fonction
 
 ## Ajout des indexeurs
 
-1. Ouvrez Prowlarr (`https://prowlarr.<votre-domaine>` ou `http://<host_ip>:9696`)
+1. Ouvrez Prowlarr (`http://localhost:9696`)
 2. Allez dans `Indexers` > `Add Indexer`
 3. Recherchez et ajoutez les indexeurs souhaités
 4. Pour les indexeurs protégés par Cloudflare, ajoutez le tag `cf` (voir [Flaresolverr](flaresolverr.md))
@@ -51,7 +51,7 @@ Dans `Settings` > `Media Management` > `Show Advanced` :
 
 ## Première demande de média
 
-1. Allez sur Seerr
+1. Allez sur Seerr (`http://localhost:5055`)
 2. Cherchez un film ou une série
 3. Faites une demande
 4. Vérifiez que la demande apparaît dans Radarr/Sonarr
@@ -69,10 +69,6 @@ Assurez-vous d'avoir changé les mots de passe par défaut de :
 - Prowlarr (authentication)
 - Radarr, Sonarr, Lidarr (authentication)
 - Jellyfin (compte admin)
-
-### Restreindre l'accès
-
-Les ports sont déjà restreints à `127.0.0.1` dans le compose.yml, ce qui signifie qu'ils ne sont accessibles que localement ou via Traefik.
 
 ## Maintenance régulière
 

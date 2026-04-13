@@ -1,6 +1,6 @@
 # Seerr
 
-Accédez à l'interface web : `http://<host_ip>:5055` (ou `https://seerr.<votre-domaine>` via Traefik)
+Accédez à l'interface web : `http://localhost:5055`
 
 Seerr est le successeur d'Overseerr (et de Jellyseerr). Il est maintenu activement et gère les demandes de médias pour Jellyfin et Plex.
 
