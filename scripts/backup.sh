@@ -17,7 +17,7 @@ SERVICES=(
     bazarr
     prowlarr
     qbittorrent
-    overseerr
+    seerr
     jellyfin
     traefik
 )

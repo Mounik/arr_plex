@@ -16,7 +16,7 @@ Une fois configuré, chaque service est accessible via son sous-domaine :
 | Bazarr | `https://bazarr.<votre-domaine>` |
 | Prowlarr | `https://prowlarr.<votre-domaine>` |
 | qBittorrent | `https://qbittorrent.<votre-domaine>` |
-| Overseerr | `https://overseerr.<votre-domaine>` |
+| Seerr | `https://seerr.<votre-domaine>` |
 
 ## Prérequis DNS
 

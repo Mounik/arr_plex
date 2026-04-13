@@ -272,31 +272,41 @@ services:
       traefik.enable: "false"
 
 ###############################################
-# OVERSEER - Request Manager
+# SEERR - Request Manager
 ###############################################
 
-  overseerr:
-    <<: *common-keys
+  seerr:
+    container_name: seerr
     profiles: ["media"]
-    container_name: overseerr
-    image: sctx/overseerr:v1.34.0
+    image: ghcr.io/seerr-team/seerr:v3.0.0
+    init: true
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Europe/Paris}
+      LOG_LEVEL: info
     ports:
-      - 127.0.0.1:${OVERSEERR_PORT:-5055}:5055
+      - 127.0.0.1:${SEERR_PORT:-5055}:5055
     volumes:
-      - /docker/appdata/overseerr:/app/config
+      - /docker/appdata/seerr:/app/config
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+    networks:
+      - arr_plex
+      - traefik
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5055/api/v1/status"]
-      interval: 60s
-      timeout: 10s
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/settings/public || exit 1"]
+      interval: 15s
+      timeout: 3s
       retries: 3
-      start_period: 30s
+      start_period: 20s
     labels:
       traefik.enable: "true"
-      traefik.http.routers.overseerr.rule: Host(`overseerr.${DOMAIN}`)
-      traefik.http.routers.overseerr.entryPoints: websecure
-      traefik.http.routers.overseerr.tls: "true"
-      traefik.http.routers.overseerr.tls.certresolver: letsencrypt
-      traefik.http.services.overseerr.loadbalancer.server.port: 5055
+      traefik.http.routers.seerr.rule: Host(`seerr.${DOMAIN}`)
+      traefik.http.routers.seerr.entryPoints: websecure
+      traefik.http.routers.seerr.tls: "true"
+      traefik.http.routers.seerr.tls.certresolver: letsencrypt
+      traefik.http.services.seerr.loadbalancer.server.port: 5055
 
 ###############################################
 # JELLYFIN - Media Server

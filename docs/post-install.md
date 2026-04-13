@@ -51,7 +51,7 @@ Dans `Settings` > `Media Management` > `Show Advanced` :
 
 ## Première demande de média
 
-1. Allez sur Overseerr
+1. Allez sur Seerr
 2. Cherchez un film ou une série
 3. Faites une demande
 4. Vérifiez que la demande apparaît dans Radarr/Sonarr

@@ -12,11 +12,11 @@ Si vous avez Windows ou Mac - vous pouvez utiliser des outils comme [Docker Desk
 - Lidarr (Music) : gère la recherche et l’organisation automatique de la musique par artiste/album.
 - Bazarr (Subtitles) : télécharge et synchronise automatiquement les sous-titres pour tes médias.
 - Flaresolverr (Cloudflare Bypass) : aide les applications à accéder aux sites protégés par Cloudflare en résolvant les protections anti-bot.
-- Overseerr (Request Manager) : interface pour que les utilisateurs demandent facilement des films ou séries à ajouter.
+- Seerr (Request Manager) : interface pour que les utilisateurs demandent facilement des films ou séries à ajouter (successeur d'Overseerr).
 - Jellyfin (Media Server) : serveur multimédia qui organise et diffuse tes contenus (films, séries, musique) sur tes appareils.
 
 En clair :  
-- Overseerr reçoit les demandes.  
+- Seerr reçoit les demandes.  
 - Sonarr / Radarr / Lidarr cherchent le contenu.  
 - Prowlarr fournit les indexeurs (avec Flaresolverr si protection).  
 - qBittorrent télécharge.  
@@ -115,7 +115,7 @@ Vous pouvez trouver plus d'informations sur [SERVARR](https://wiki.servarr.com/r
 Vous pouvez utiliser une commande comme :
 
 ```bash
-git clone https://github.com/automation-avenue/arr-new.git
+git clone https://github.com/Mounik/arr_suite.git
 ```
 
 ou simplement copier le fichier compose.yml depuis ce dépôt :
@@ -167,7 +167,7 @@ Configurons tout cela dans le bon ordre :
 
 [Jellyfin](docs/jellyfin.md)
 
-[Overseerr](docs/overseerr.md)
+[Seerr](docs/seerr.md)
 
 [Flaresolverr](docs/flaresolverr.md)
 
@@ -187,9 +187,9 @@ sudo docker compose up -d
 ## Configuration restante :
 
 Ça devrait être tout, il vous suffit d'ajouter quelques indexeurs à Prowlarr.  
-Vous pouvez ajouter plus d'indexeurs - cherchez simplement sur google quelque chose comme 'what are the best legal indexers for Prowlarr' ou similaire.  
+Vous pouvez ajouter plus d'indexeurs - cherchez simplement sur google quelque chose comme 'what are the best indexers for Prowlarr' ou 'Quels sont les meilleurs indexeurs pour Prowlarr ?'.  
 
-C'est une fausse idée commune que la stack "Arr" est uniquement pour du contenu piraté.  
+C'est une fausse idée commune que la stack "Arr" est réservé pour du contenu piraté.  
 En réalité, ce sont des outils d'automatisation puissants pour gérer les médias, et il y a une richesse de contenu légal, libre de droits et open-source que vous pouvez utiliser avec.  
 Dans Radarr, vous pouvez télécharger des films qui sont entrés dans le Domaine Public ou sont publiés sous licences Creative Commons.  
 Classiques du Domaine Public : Ce sont des films "Golden Age" où le copyright n'a pas été renouvelé comme :  
