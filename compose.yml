@@ -23,7 +23,7 @@ services:
   radarr:
     <<: *common-keys
     container_name: radarr
-    image: ghcr.io/hotio/radarr:release-5.21.1
+    image: ghcr.io/hotio/radarr:latest
     ports:
       - ${RADARR_PORT:-7878}:7878
     volumes:
@@ -44,7 +44,7 @@ services:
   sonarr:
     <<: *common-keys
     container_name: sonarr
-    image: ghcr.io/hotio/sonarr:release-4.0.14
+    image: ghcr.io/hotio/sonarr:latest
     ports:
       - ${SONARR_PORT:-8989}:8989
     volumes:
@@ -65,7 +65,7 @@ services:
   lidarr:
     <<: *common-keys
     container_name: lidarr
-    image: ghcr.io/hotio/lidarr:release-2.9.6
+    image: ghcr.io/hotio/lidarr:latest
     ports:
       - ${LIDARR_PORT:-8686}:8686
     volumes:
@@ -86,7 +86,7 @@ services:
   bazarr:
     <<: *common-keys
     container_name: bazarr
-    image: ghcr.io/hotio/bazarr:release-1.5.1
+    image: ghcr.io/hotio/bazarr:latest
     ports:
       - ${BAZARR_PORT:-6767}:6767
     volumes:
@@ -107,7 +107,7 @@ services:
   prowlarr:
     <<: *common-keys
     container_name: prowlarr
-    image: ghcr.io/hotio/prowlarr:release-1.32.2
+    image: ghcr.io/hotio/prowlarr:latest
     ports:
       - ${PROWLARR_PORT:-9696}:9696
     volumes:
@@ -127,7 +127,7 @@ services:
   qbittorrent:
     <<: *common-keys
     container_name: qbittorrent
-    image: ghcr.io/hotio/qbittorrent:release-5.0.4
+    image: ghcr.io/hotio/qbittorrent:latest
     ports:
       - ${QBITTORRENT_WEBUI_PORT:-8080}:8080
       - ${QBITTORRENT_TORRENT_PORT:-6881}:6881
@@ -156,7 +156,7 @@ services:
   flaresolverr:
     <<: *common-keys
     container_name: flaresolverr
-    image: ghcr.io/flaresolverr/flaresolverr:v3.3.21
+    image: ghcr.io/flaresolverr/flaresolverr:latest
     ports:
       - ${FLARESOLVERR_PORT:-8191}:8191
     environment:
@@ -177,7 +177,7 @@ services:
 
   seerr:
     container_name: seerr
-    image: ghcr.io/seerr-team/seerr:v3.0.0
+    image: ghcr.io/seerr-team/seerr:latest
     init: true
     restart: unless-stopped
     logging:
@@ -208,7 +208,7 @@ services:
   jellyfin:
     <<: *common-keys
     container_name: jellyfin
-    image: linuxserver/jellyfin:10.10.6
+    image: linuxserver/jellyfin:latest
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /docker/appdata/jellyfin:/config
@@ -229,7 +229,7 @@ services:
   watchtower:
     container_name: watchtower
     profiles: ["infra"]
-    image: containrrr/watchtower:1.17.0
+    image: containrrr/watchtower:latest
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
