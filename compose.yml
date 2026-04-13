@@ -51,6 +51,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - traefik
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     labels:
       traefik.enable: "true"
       traefik.http.routers.traefik.rule: Host(`traefik.${DOMAIN}`)
@@ -73,6 +78,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /docker/appdata/radarr:/config
       - /data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7878/ping"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     labels:
       traefik.enable: "true"
       traefik.http.routers.radarr.rule: Host(`radarr.${DOMAIN}`)
@@ -95,6 +106,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /docker/appdata/sonarr:/config
       - /data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8989/ping"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     labels:
       traefik.enable: "true"
       traefik.http.routers.sonarr.rule: Host(`sonarr.${DOMAIN}`)
@@ -117,6 +134,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /docker/appdata/lidarr:/config
       - /data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8686/ping"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     labels:
       traefik.enable: "true"
       traefik.http.routers.lidarr.rule: Host(`lidarr.${DOMAIN}`)
@@ -139,6 +162,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /docker/appdata/bazarr:/config
       - /data/media:/data/media
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6767/ping"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     labels:
       traefik.enable: "true"
       traefik.http.routers.bazarr.rule: Host(`bazarr.${DOMAIN}`)
@@ -160,6 +189,12 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /docker/appdata/prowlarr:/config
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9696/ping"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     labels:
       traefik.enable: "true"
       traefik.http.routers.prowlarr.rule: Host(`prowlarr.${DOMAIN}`)
@@ -190,6 +225,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /docker/appdata/qbittorrent:/config
       - /data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     labels:
       traefik.enable: "true"
       traefik.http.routers.qbittorrent.rule: Host(`qbittorrent.${DOMAIN}`)
@@ -213,6 +254,12 @@ services:
       PGID: 1000
       TZ: Europe/Paris
       LOG_LEVEL: info
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8191/health"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     labels:
       traefik.enable: "false"
 
@@ -228,6 +275,12 @@ services:
       - 127.0.0.1:5055:5055
     volumes:
       - /docker/appdata/overseerr:/app/config
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5055/api/v1/status"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     labels:
       traefik.enable: "true"
       traefik.http.routers.overseerr.rule: Host(`overseerr.${DOMAIN}`)
@@ -250,6 +303,12 @@ services:
       - /data/media:/data/media:ro
     ports:
       - 127.0.0.1:8096:8096
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8096/health"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     labels:
       traefik.enable: "true"
       traefik.http.routers.jellyfin.rule: Host(`jellyfin.${DOMAIN}`)
