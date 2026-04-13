@@ -318,6 +318,23 @@ services:
       traefik.http.services.jellyfin.loadbalancer.server.port: 8096
 
 ###############################################
+# WATCHTOWER - Auto Updater
+###############################################
+
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower:1.17.0
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      WATCHTOWER_CLEANUP: "true"
+      WATCHTOWER_SCHEDULE: "0 0 4 * * *"
+      WATCHTOWER_NOTIFICATIONS: ""
+    networks:
+      - traefik
+
+###############################################
 # ARR Stack Dedicated Network
 ###############################################
 
