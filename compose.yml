@@ -22,7 +22,6 @@ services:
 ###############################################
   radarr:
     <<: *common-keys
-    profiles: ["arr"]
     container_name: radarr
     image: ghcr.io/hotio/radarr:release-5.21.1
     ports:
@@ -44,7 +43,6 @@ services:
 
   sonarr:
     <<: *common-keys
-    profiles: ["arr"]
     container_name: sonarr
     image: ghcr.io/hotio/sonarr:release-4.0.14
     ports:
@@ -66,7 +64,6 @@ services:
 
   lidarr:
     <<: *common-keys
-    profiles: ["arr"]
     container_name: lidarr
     image: ghcr.io/hotio/lidarr:release-2.9.6
     ports:
@@ -88,7 +85,6 @@ services:
 
   bazarr:
     <<: *common-keys
-    profiles: ["media"]
     container_name: bazarr
     image: ghcr.io/hotio/bazarr:release-1.5.1
     ports:
@@ -110,7 +106,6 @@ services:
 
   prowlarr:
     <<: *common-keys
-    profiles: ["arr"]
     container_name: prowlarr
     image: ghcr.io/hotio/prowlarr:release-1.32.2
     ports:
@@ -131,7 +126,6 @@ services:
 
   qbittorrent:
     <<: *common-keys
-    profiles: ["arr"]
     container_name: qbittorrent
     image: ghcr.io/hotio/qbittorrent:release-5.0.4
     ports:
@@ -161,7 +155,6 @@ services:
 
   flaresolverr:
     <<: *common-keys
-    profiles: ["arr"]
     container_name: flaresolverr
     image: ghcr.io/flaresolverr/flaresolverr:v3.3.21
     ports:
@@ -184,7 +177,6 @@ services:
 
   seerr:
     container_name: seerr
-    profiles: ["media"]
     image: ghcr.io/seerr-team/seerr:v3.0.0
     init: true
     restart: unless-stopped
@@ -215,7 +207,6 @@ services:
 
   jellyfin:
     <<: *common-keys
-    profiles: ["media"]
     container_name: jellyfin
     image: linuxserver/jellyfin:10.10.6
     volumes:
