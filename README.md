@@ -140,6 +140,11 @@ docker compose up -d
 
 Le fichier compose crée un réseau dédié nommé `arr_plex` pour que tous les services communiquent entre eux.
 
+> **Note** : Si vous souhaitez personnaliser les ports ou le fuseau horaire, copiez `.env.example` en `.env` et modifiez-le :
+> ```bash
+> cp .env.example .env
+> ```
+
 ---
 
 ## Configuration des services :
@@ -178,8 +183,31 @@ Configurons tout cela dans le bon ordre :
 Il pourrait être judicieux de redémarrer tous les services et voir s'ils se lancent comme attendu :
 
 ```bash
-sudo docker compose down
-sudo docker compose up -d
+docker compose down
+docker compose up -d
+```
+
+---
+
+## Post-installation :
+
+Une fois les services configurés, consultez le guide de [post-installation](docs/post-install.md) pour vérifier que tout fonctionne.
+
+---
+
+## Mises à jour automatiques :
+
+Watchtower est inclus (profil `infra`) et met à jour les images automatiquement à 4h du matin :
+
+```bash
+docker compose --profile infra up -d
+```
+
+Ou manuellement :
+
+```bash
+docker compose pull
+docker compose up -d
 ```
 
 ---
@@ -203,10 +231,10 @@ Ils hébergent des milliers de films du domaine public.
 
 ### Vérification DNS :
 
-Testez si vos conteneurs utilisent le DNS CloudFlare (configuré dans le fichier docker-compose.yml) :
+Testez si vos conteneurs utilisent le DNS CloudFlare (configuré dans le fichier compose.yml) :
 
 ```bash
-sudo docker exec -it radarr cat /etc/resolv.conf
+docker exec -it radarr cat /etc/resolv.conf
 ```
 
 ### Vérification des hardlinks :

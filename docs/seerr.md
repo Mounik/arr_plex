@@ -65,3 +65,8 @@ Cela permet de recevoir une notification quand une demande est approuvée ou qua
 - Seerr tourne en tant qu'utilisateur `node` (UID 1000), pas besoin de PUID/PGID
 - Le conteneur utilise `init: true` (obligatoire pour Docker Compose)
 - Le healthcheck utilise l'endpoint `/api/v1/settings/public`
+- **Permissions du dossier** : le dossier `/docker/appdata/seerr` doit appartenir à l'utilisateur UID 1000 :
+  ```bash
+  sudo chown -R 1000:1000 /docker/appdata/seerr
+  ```
+  Si cette commande n'est pas exécutée, Seerr ne pourra pas démarrer (erreur `EACCES: permission denied`)

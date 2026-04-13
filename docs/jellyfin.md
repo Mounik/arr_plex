@@ -1,6 +1,6 @@
 # Jellyfin
 
-Accédez à l'interface web : `http://<host_ip>:8096` (ou `https://jellyfin.<votre-domaine>` via Traefik)
+Accédez à l'interface web : `http://localhost:8096`
 
 ## Première configuration
 
@@ -25,7 +25,7 @@ Si votre serveur dispose d'un GPU, vous pouvez activer le transcodage matériel 
 1. Allez dans `Tableau de bord` > `Lecture`
 2. Section `Accélération matérielle` : sélectionnez votre type de GPU (VAAPI, NVENC, QSV, etc.)
 3. Cochez les formats que votre GPU supporte
-4. Décommentez la ligne `devices` dans le fichier compose.yml :
+4. Ajoutez la ligne `devices` dans le fichier compose.yml :
 
 ```yaml
   jellyfin:
@@ -38,7 +38,7 @@ Si votre serveur dispose d'un GPU, vous pouvez activer le transcodage matériel 
       - /docker/appdata/jellyfin:/config
       - /data/media:/data/media:ro
     ports:
-      - 127.0.0.1:8096:8096
+      - 8096:8096
 ```
 
 ## Autorisation des clients distants

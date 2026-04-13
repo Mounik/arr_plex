@@ -1,11 +1,9 @@
 # Prowlarr
 
-Maintenant configurez le service Prowlarr (chacun de ces services nécessitera de configurer utilisateur/mot de passe)  
-Utilisez `Form (login page) authentication` et définissez votre utilisateur et mot de passe pour tous.
+Accédez à l'interface web : `http://localhost:9696`
 
-```bash
-http://<host_ip>:9696
-```
+Configurez le service Prowlarr (chacun de ces services nécessitera de configurer utilisateur/mot de passe)
+Utilisez `Form (login page) authentication` et définissez votre utilisateur et mot de passe pour tous.
 
 Allez à `Settings - Download Clients` - symbole `+` - Add download client - choisissez `qBittorrent` (sauf si vous avez décidé d'utiliser un client de téléchargement différent)
 
