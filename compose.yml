@@ -136,8 +136,8 @@ services:
       PUID: ${PUID:-1000}
       PGID: ${PGID:-1000}
       TZ: ${TZ:-Europe/Paris}
-      WEBUI_PORT: 8080
-      TORRENTING_PORT: ${QBITTORRENT_TORRENT_PORT:-6881}
+      WEBUI_PORTS: "8080/tcp"
+      TORRENTING_PORT: "6881"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /docker/appdata/qbittorrent:/config
@@ -176,26 +176,18 @@ services:
 ###############################################
 
   seerr:
+    <<: *common-keys
     container_name: seerr
-    image: ghcr.io/seerr-team/seerr:latest
-    init: true
-    restart: unless-stopped
-    logging:
-      driver: json-file
+    image: ghcr.io/hotio/seerr:latest
     environment:
       TZ: ${TZ:-Europe/Paris}
       LOG_LEVEL: info
     ports:
       - ${SEERR_PORT:-5055}:5055
     volumes:
-      - /docker/appdata/seerr:/app/config
-    dns:
-      - 1.1.1.1
-      - 1.0.0.1
-    networks:
-      - arr_plex
+      - /docker/appdata/seerr:/config
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/settings/public || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:5055/api/v1/settings/public"]
       interval: 15s
       timeout: 3s
       retries: 3
@@ -208,7 +200,7 @@ services:
   jellyfin:
     <<: *common-keys
     container_name: jellyfin
-    image: linuxserver/jellyfin:latest
+    image: ghcr.io/hotio/jellyfin:latest
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /docker/appdata/jellyfin:/config
@@ -223,22 +215,6 @@ services:
       start_period: 60s
 
 ###############################################
-# WATCHTOWER - Auto Updater
-###############################################
-
-  watchtower:
-    container_name: watchtower
-    profiles: ["infra"]
-    image: containrrr/watchtower:latest
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      WATCHTOWER_CLEANUP: "true"
-      WATCHTOWER_SCHEDULE: "0 0 4 * * *"
-      WATCHTOWER_NOTIFICATIONS: ""
-
-###############################################
 # ARR Stack Dedicated Network
 ###############################################
 
@@ -246,5 +222,4 @@ networks:
   arr_plex:
     name: arr_plex
 
-###############################################
 ###############################################
