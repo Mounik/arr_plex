@@ -7,7 +7,7 @@ Après avoir configuré chaque service individuellement, voici les étapes de v�
 ### 1. Vérifier que tous les conteneurs tournent
 
 ```bash
-docker compose ps
+docker ps
 ```
 
 Tous les services doivent afficher le statut `Up`. Si un service a quitté, vérifiez les logs :

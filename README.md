@@ -195,19 +195,19 @@ Une fois les services configurés, consultez le guide de [post-installation](doc
 
 ---
 
-## Mises à jour automatiques :
+## Mises à jour des services :
 
-Watchtower est inclus (profil `infra`) et met à jour les images automatiquement à 4h du matin :
-
-```bash
-docker compose --profile infra up -d
-```
-
-Ou manuellement :
+Les mises à jour des images se font manuellement :
 
 ```bash
 docker compose pull
 docker compose up -d
+```
+
+Pour nettoyer les images obsolètes :
+
+```bash
+docker image prune -f
 ```
 
 ---

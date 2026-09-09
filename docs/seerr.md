@@ -62,9 +62,10 @@ Cela permet de recevoir une notification quand une demande est approuvée ou qua
 
 ## Notes spécifiques
 
-- Seerr tourne en tant qu'utilisateur `node` (UID 1000), pas besoin de PUID/PGID
-- Le conteneur utilise `init: true` (obligatoire pour Docker Compose)
-- Le healthcheck utilise l'endpoint `/api/v1/settings/public`
+- Seerr tourne en tant qu'utilisateur UID 1000 par défaut (pas besoin de PUID/PGID)
+- Ne pas ajouter `init: true` : l'image hotio utilise s6-overlay qui doit être PID 1. Avec `init: true`, le conteneur crashe en boucle (`s6-overlay-suexec: fatal: can only run as pid 1`)
+- Le healthcheck utilise `curl -f` sur l'endpoint `/api/v1/settings/public` (requête GET). Éviter `wget --spider` : Seerr ne gère pas les requêtes HEAD
+- La configuration est montée sur `/config` (et non `/app/config`, qui est un simple lien symbolique vers `/config` dans l'image)
 - **Permissions du dossier** : le dossier `/docker/appdata/seerr` doit appartenir à l'utilisateur UID 1000 :
   ```bash
   sudo chown -R 1000:1000 /docker/appdata/seerr
